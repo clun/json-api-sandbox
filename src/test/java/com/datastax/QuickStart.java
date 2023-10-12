@@ -8,11 +8,15 @@ import io.stargate.sdk.json.domain.NamespaceDefinition;
 import io.stargate.sdk.json.vector.SimilarityMetric;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * Unit test for simple App.
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class QuickStart {
 
     static JsonApiClient jsonApi;
@@ -21,9 +25,11 @@ public class QuickStart {
     public static void setup() {
         // If default (localhost:8181) no parameter needed
         jsonApi = new JsonApiClient();
+        jsonApi.dropNamespace("demo_namespace");
     }
 
     @Test
+    @Order(1)
     public void workingWithNamespaces() {
 
         // [NOT PART OF ASTRA CLIENT]
@@ -47,6 +53,7 @@ public class QuickStart {
     }
 
     @Test
+    @Order(2)
     public void workingWithCollections() {
         JsonNamespaceClient vectorDb = jsonApi.namespace("demo_namespace");
 
@@ -60,8 +67,8 @@ public class QuickStart {
         vectorDb.createCollection("demo_collection_vector", 14, SimilarityMetric.cosine);
 
         // Create one with vectorize
-        vectorDb.createCollection("demo_collection_openai", 1536, SimilarityMetric.cosine,
-                "openai", "text-embeddings-ada-002");
+        //vectorDb.createCollection("demo_collection_openai", 1536, SimilarityMetric.cosine,
+        //        "openai", "text-embeddings-ada-002");
 
         vectorDb.createCollection("tmp_collection");
         vectorDb.deleteCollection("tmp_collection");
@@ -69,6 +76,7 @@ public class QuickStart {
     }
 
     @Test
+    @Order(3)
     public void crudOnCollection() {
 
         JsonCollectionClient collectionClient = jsonApi
