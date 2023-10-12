@@ -80,7 +80,7 @@ public class QuickStart {
 
         // it is not javascript we need object + let us provide an id
         collectionClient.insertOne(new JsonDocument().id("doc1").put("name", "product2").put("price", 19.99));
-        
+
     }
 
 
